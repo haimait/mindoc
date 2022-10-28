@@ -156,7 +156,7 @@
             <div class="m-copyright">
                 <p>
                     <div id="view_count">{{i18n .Lang "doc.view_count"}}：{{.ViewCount}}</div>
-                    {{i18n $.Lang "doc.doc_publish_by"}} <a href="https://www.iminho.me" target="_blank">MinDoc</a> {{i18n $.Lang "doc.doc_publish"}}
+<!--                    {{i18n $.Lang "doc.doc_publish_by"}} <a href="https://www.iminho.me" target="_blank">MinDoc</a> {{i18n $.Lang "doc.doc_publish"}}-->
                 </p>
             </div>
         </div>
@@ -315,45 +315,48 @@ $(function () {
     });
 
     window.menuControl = true;
-    window.menuSetting = "open" ;
-    if (menuSetting == 'open' || menuSetting == 'first') {
-        $('#handlerMenuShow').find('span').text('{{i18n .Lang "doc.fold"}}');
-        $('#handlerMenuShow').find('i').attr("class","fa fa-angle-down");
-        if (menuSetting == 'open') {
-            window.jsTree.jstree().open_all()
-        }
-        if (menuSetting == 'first') {
-            window.jsTree.jstree('close_all')
-            var $target = $('.jstree-container-ul').children('li').filter(function(index){
-                if($(this).attr('aria-expanded')==false||$(this).attr('aria-expanded')){
-                    return $(this)
-                }else{
-                    delete $(this)
-                }
-            })
-            $target.children('i').trigger('click')
-        }
-    } else {
-        menuControl = false;
-        window.jsTree.jstree('close_all')
-    }
-    $('#handlerMenuShow').on('click', function(){
-        if(menuControl){
-            $(this).find('span').text('{{i18n .Lang "doc.expand"}}')
-            $(this).find('i').attr("class","fa fa-angle-left")
-            window.menuControl = false
-            window.jsTree.jstree('close_all')
-        }else{
-            window.menuControl = true
-            $(this).find('span').text('{{i18n .Lang "doc.fold"}}')
-            $(this).find('i').attr("class","fa fa-angle-down")
-            window.jsTree.jstree().open_all()
-        }
-    });
+//临时注释此代码：打开项目时，左侧目录应按创建文档时的实际选择默认展开或收起，而不是所有目录强制展开。
 
-    if (!window.IS_DOCUMENT_INDEX && IS_DISPLAY_COMMENT) {
-        pageClicked(-1, parseInt($('#doc_id').val()));
+// window.menuSetting = "open" ;
+if (menuSetting == 'open' || menuSetting == 'first') {
+    $('#handlerMenuShow').find('span').text('{{i18n .Lang "doc.fold"}}');
+    $('#handlerMenuShow').find('i').attr("class","fa fa-angle-down");
+    if (menuSetting == 'open') {
+        window.jsTree.jstree().open_all()
     }
+    if (menuSetting == 'first') {
+        window.jsTree.jstree('close_all')
+        var $target = $('.jstree-container-ul').children('li').filter(function(index){
+            if($(this).attr('aria-expanded')==false||$(this).attr('aria-expanded')){
+                return $(this)
+            }else{
+                delete $(this)
+            }
+        })
+        $target.children('i').trigger('click')
+    }
+} else {
+    menuControl = false;
+    window.jsTree.jstree('close_all')
+}
+
+$('#handlerMenuShow').on('click', function(){
+    if(menuControl){
+        $(this).find('span').text('{{i18n .Lang "doc.expand"}}')
+        $(this).find('i').attr("class","fa fa-angle-left")
+        window.menuControl = false
+        window.jsTree.jstree('close_all')
+    }else{
+        window.menuControl = true
+        $(this).find('span').text('{{i18n .Lang "doc.fold"}}')
+        $(this).find('i').attr("class","fa fa-angle-down")
+        window.jsTree.jstree().open_all()
+    }
+});
+
+if (!window.IS_DOCUMENT_INDEX && IS_DISPLAY_COMMENT) {
+    pageClicked(-1, parseInt($('#doc_id').val()));
+}
 });
 </script>
 {{.Scripts}}
