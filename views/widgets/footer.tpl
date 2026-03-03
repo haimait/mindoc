@@ -16,8 +16,7 @@
 <!--            <span><a href="https://www.iminho.me/wiki/docs/mindoc/" target="_blank">{{i18n .Lang "common.manual"}}</a></span>-->
         </div>
         {{if .site_beian}}
-
-        <div class="row text-center" >
+        <div class="row text-center">
             <a href="https://beian.miit.gov.cn/" target="_blank">{{.site_beian}}</a>
         </div>
         {{end}}

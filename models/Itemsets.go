@@ -12,7 +12,7 @@ import (
 	"github.com/mindoc-org/mindoc/utils/cryptil"
 )
 
-//项目空间
+// 项目空间
 type Itemsets struct {
 	ItemId      int       `orm:"column(item_id);pk;auto;unique" json:"item_id"`
 	ItemName    string    `orm:"column(item_name);size(500);description(项目空间名称)" json:"item_name"`
@@ -76,7 +76,7 @@ func (item *Itemsets) Exist(itemId int) bool {
 	return item.QueryTable().Filter("item_id", itemId).Exist()
 }
 
-//保存
+// 保存
 func (item *Itemsets) Save() (err error) {
 
 	item.ItemName = strings.TrimSpace(utils.StripTags(item.ItemName))
@@ -101,7 +101,7 @@ func (item *Itemsets) Save() (err error) {
 	return
 }
 
-//删除.
+// 删除.
 func (item *Itemsets) Delete(itemId int) (err error) {
 	if itemId <= 0 {
 		return ErrInvalidParameter
@@ -155,7 +155,7 @@ func (item *Itemsets) Include() (*Itemsets, error) {
 	return item, nil
 }
 
-//分页查询.
+// 分页查询.
 func (item *Itemsets) FindToPager(pageIndex, pageSize int) (list []*Itemsets, totalCount int, err error) {
 
 	offset := (pageIndex - 1) * pageSize
@@ -178,7 +178,7 @@ func (item *Itemsets) FindToPager(pageIndex, pageSize int) (list []*Itemsets, to
 	return
 }
 
-//根据项目空间名称查询.
+// 根据项目空间名称查询.
 func (item *Itemsets) FindItemsetsByName(name string, limit int) (*SelectMemberResult, error) {
 	result := SelectMemberResult{}
 
@@ -208,7 +208,7 @@ func (item *Itemsets) FindItemsetsByName(name string, limit int) (*SelectMemberR
 	return &result, err
 }
 
-//根据项目空间标识查询项目空间的项目列表.
+// 根据项目空间标识查询项目空间的项目列表.
 func (item *Itemsets) FindItemsetsByItemKey(key string, pageIndex, pageSize, memberId int) (books []*BookResult, totalCount int, err error) {
 	o := orm.NewOrm()
 
@@ -246,9 +246,9 @@ as t group by book_id) as team
 			LEFT JOIN md_relationship AS rel1 ON rel1.book_id = book.book_id AND rel1.role_id = 0
 			LEFT JOIN md_members AS mdmb ON rel1.member_id = mdmb.member_id
 			WHERE book.item_id = ? AND (book.privately_owned = 0 or rel.role_id >= 0 or team.role_id >= 0) 
-			ORDER BY order_index desc,book.book_id DESC LIMIT ?,?`
+			ORDER BY order_index desc,book.book_id DESC limit ? offset ?`
 
-		_, err = o.Raw(sql2, memberId, memberId, item.ItemId, offset, pageSize).QueryRows(&books)
+		_, err = o.Raw(sql2, memberId, memberId, item.ItemId, pageSize, offset).QueryRows(&books)
 
 		return
 
@@ -264,9 +264,9 @@ as t group by book_id) as team
 		sql := `SELECT book.*,rel.*,mdmb.account AS create_name FROM md_books AS book
 			LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.role_id = 0
 			LEFT JOIN md_members AS mdmb ON rel.member_id = mdmb.member_id
-			WHERE book.item_id = ? AND book.privately_owned = 0 ORDER BY order_index desc,book.book_id DESC LIMIT ?,?`
+			WHERE book.item_id = ? AND book.privately_owned = 0 ORDER BY order_index desc,book.book_id DESC limit ? offset ?`
 
-		_, err = o.Raw(sql, item.ItemId, offset, pageSize).QueryRows(&books)
+		_, err = o.Raw(sql, item.ItemId, pageSize, offset).QueryRows(&books)
 
 		return
 

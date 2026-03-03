@@ -59,7 +59,7 @@ func (m *DocumentHistory) Find(id int) (*DocumentHistory, error) {
 	return m, err
 }
 
-//清空指定文档的历史.
+// 清空指定文档的历史.
 func (m *DocumentHistory) Clear(docId int) error {
 	o := orm.NewOrm()
 
@@ -68,7 +68,7 @@ func (m *DocumentHistory) Clear(docId int) error {
 	return err
 }
 
-//删除历史.
+// 删除历史.
 func (m *DocumentHistory) Delete(historyId, docId int) error {
 	o := orm.NewOrm()
 
@@ -77,7 +77,7 @@ func (m *DocumentHistory) Delete(historyId, docId int) error {
 	return err
 }
 
-//恢复指定历史的文档.
+// 恢复指定历史的文档.
 func (m *DocumentHistory) Restore(historyId, docId, uid int) error {
 	o := orm.NewOrm()
 
@@ -152,7 +152,7 @@ func (m *DocumentHistory) InsertOrUpdate() (history *DocumentHistory, err error)
 	return
 }
 
-//分页查询指定文档的历史.
+// 分页查询指定文档的历史.
 func (m *DocumentHistory) FindToPager(docId, pageIndex, pageSize int) (docs []*DocumentHistorySimpleResult, totalCount int, err error) {
 
 	o := orm.NewOrm()
@@ -165,9 +165,9 @@ func (m *DocumentHistory) FindToPager(docId, pageIndex, pageSize int) (docs []*D
 FROM md_document_history AS history
 LEFT JOIN md_members AS m1 ON history.member_id = m1.member_id
 LEFT JOIN md_members AS m2 ON history.modify_at = m2.member_id
-WHERE history.document_id = ? ORDER BY history.history_id DESC LIMIT ?,?;`
+WHERE history.document_id = ? ORDER BY history.history_id DESC limit ? offset ?;`
 
-	_, err = o.Raw(sql, docId, offset, pageSize).QueryRows(&docs)
+	_, err = o.Raw(sql, docId, pageSize, offset).QueryRows(&docs)
 
 	if err != nil {
 		return
