@@ -460,8 +460,8 @@ function checkMarkdownTocElement() {
     }
     let articleComment = $("#articleComment");
     if (toc.length) {
-        $(".wiki-bottom-left").css("width", "calc(100% - 260px)");
-        articleComment.css("width", "calc(100% - 260px)");
+        $(".wiki-bottom-left").css("width", "calc(100% - 290px)");
+        articleComment.css("width", "calc(100% - 290px)");
         articleComment.css("margin", "30px 0 70px 0");
     } else {
         $(".wiki-bottom-left").css("width", "100%");

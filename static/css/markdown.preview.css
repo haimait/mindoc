@@ -100,7 +100,7 @@
 }
 
 .article-body .markdown-article{
-    width: calc(100% - 260px);
+    width: calc(100% - 290px);
     /*margin-right: 250px;*/
 }
 .article-body.content .markdown-toc{
