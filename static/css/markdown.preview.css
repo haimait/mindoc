@@ -100,7 +100,7 @@
 }
 
 .article-body .markdown-article{
-    width: calc(100% - 260px);
+    width: calc(100% - 290px);
     /*margin-right: 250px;*/
 }
 .article-body.content .markdown-toc{
@@ -173,7 +173,7 @@
     border: none;
     overflow: auto;
     line-height: 1.45;
-    max-height: 35em;
+    /*max-height: 35em;*/
     position: relative;
     /*background: url(../editor.md/lib/highlight/blueprint.png) #F6F6F6;*/
     -moz-background-size: 30px,30px;
