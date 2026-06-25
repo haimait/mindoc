@@ -1069,6 +1069,7 @@ func (c *DocumentController) Export() {
 			c.ShowErrorPage(500, i18n.Tr(c.Lang, "message.failed"))
 		}
 		c.Ctx.Output.Download(p, bookResult.BookName+".zip")
+		os.Remove(p)
 
 		c.StopRun()
 		return

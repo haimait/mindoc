@@ -533,11 +533,12 @@ func (m *BookResult) Converter(sessionId string) (ConvertBookResult, error) {
 func (m *BookResult) ExportMarkdown(sessionId string) (string, error) {
 	outputPath := filepath.Join(conf.WorkingDirectory, "uploads", "books", strconv.Itoa(m.BookId), "book.zip")
 
-	os.MkdirAll(filepath.Dir(outputPath), 0644)
+	os.MkdirAll(filepath.Dir(outputPath), 0755)
 
 	tempOutputPath := filepath.Join(os.TempDir(), sessionId, "markdown")
+	os.MkdirAll(tempOutputPath, 0755)
 
-	defer os.RemoveAll(tempOutputPath)
+	defer os.RemoveAll(filepath.Join(os.TempDir(), sessionId))
 
 	bookUrl := conf.URLFor("DocumentController.Index", ":key", m.Identify) + "/"
 
