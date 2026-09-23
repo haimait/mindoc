@@ -33,5 +33,7 @@ database/mindoc.db
 /vendor
 /runtime
 /uploads/*.*
+uploads/*
 !/uploads/.gitkeep
 calibre-*.txz
+*.log
